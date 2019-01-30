@@ -51,7 +51,7 @@ parameters:
     default: Ubuntu1604
   proxy_ip:
     type: string
-    default: 10.144.106.132:8678  
+    default: 10.157.240.254:8678  
 
 
 
