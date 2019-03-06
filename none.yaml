@@ -121,18 +121,22 @@ resources:
             echo "export http_proxy=$proxy" >> /etc/profile.d/proxy.sh
             echo "export https_proxy=$proxy" >> /etc/profile.d/proxy.sh
             echo  > /etc/apt/sources.list
-            cat >/etc/apt/sources.list <<EOL
-            ###### Ubuntu Main Repos
-            deb http://in.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse 
-            deb-src http://in.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse 
-
-            ###### Ubuntu Update Repos
-            deb http://in.archive.ubuntu.com/ubuntu/ xenial-security main restricted universe multiverse 
-            deb http://in.archive.ubuntu.com/ubuntu/ xenial-updates main restricted universe multiverse 
-            deb-src http://in.archive.ubuntu.com/ubuntu/ xenial-security main restricted universe multiverse 
-            deb-src http://in.archive.ubuntu.com/ubuntu/ xenial-updates main restricted universe multiverse  
-            EOL
+                      
+            echo "###### Ubuntu Main Repos" >> /etc/apt/sources.list
+            echo "deb http://in.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse"  >> /etc/apt/sources.list
+            echo "deb-src http://in.archive.ubuntu.com/ubuntu/ xenial main restricted universe multiverse" >> /etc/apt/sources.list
+            echo "###### Ubuntu Update Repos" >> /etc/apt/sources.list
+            echo "deb http://in.archive.ubuntu.com/ubuntu/ xenial-security main restricted universe multiverse" >> /etc/apt/sources.list
+            echo "deb http://in.archive.ubuntu.com/ubuntu/ xenial-updates main restricted universe multiverse" >> /etc/apt/sources.list
+            echo "deb-src http://in.archive.ubuntu.com/ubuntu/ xenial-security main restricted universe multiverse" >> /etc/apt/sources.list
+            echo "deb-src http://in.archive.ubuntu.com/ubuntu/ xenial-updates main restricted universe multiverse"  >> /etc/apt/sources.list
             apt-get update -y
+            wget https://dl.influxdata.com/telegraf/releases/telegraf_1.10.0-1_amd64.deb
+            dpkg -i telegraf_1.10.0-1_amd64.deb
+            apt-get install jq
+            echo "serverid=$(sudo curl GET  -s 'http://169.254.169.254/openstack/latest/meta_data.json' |jq -r '.uuid' )" >> /etc/default/telegraf
+            service telegraf restart
+            
           params:
             $proxy: { get_param: proxy_ip }
 
