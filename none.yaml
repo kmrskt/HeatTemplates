@@ -55,10 +55,6 @@ parameters:
     type: string
     default: http://10.157.240.254:8678
 
-
-
-
-
 resources:
   security_group:
     type: OS::Neutron::SecurityGroup
