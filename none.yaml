@@ -115,6 +115,8 @@ resources:
             sudo hostname localhost
             echo "sudo hostnamectl set-hostname localhost" >> ~/.profile
             sudo -i
+            rm /var/cache/apt/archives/lock
+            rm /var/lib/dpkg/lock
             export http_proxy=$proxy
             export https_proxy=$proxy
             echo "export http_proxy=$proxy" >> /etc/profile.d/proxy.sh
